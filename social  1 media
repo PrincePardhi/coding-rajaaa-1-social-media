@@ -1,6 +1,6 @@
 Facebook post scraping and Text Analytics (Sentiment Analysis)
 This is demo repo to demostrate how to scrape post data from Facebook by Python with library facebook_scraper. And then use Azure Text Analytics to perform sentiment analysis for post text content.
-
+![Image Alt Text]("C:\Users\bhans\Downloads\git-image-1.png")
 Line Chart to visualize post datetime vs Like, Love, Ha Ha, Wow, Sad, Angry, Care, Shares and Comments.
 
 Plotting sentiment & Like columns relationship by Seaborn
