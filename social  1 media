@@ -1,8 +1,35 @@
-Facebook post scraping and Text Analytics (Sentiment Analysis)
-This is demo repo to demostrate how to scrape post data from Facebook by Python with library facebook_scraper. And then use Azure Text Analytics to perform sentiment analysis for post text content.
-![Image Alt Text]("C:\Users\bhans\Downloads\git-image-1.png")
-Line Chart to visualize post datetime vs Like, Love, Ha Ha, Wow, Sad, Angry, Care, Shares and Comments.
+# Import necessary libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.pipeline import make_pipeline
+from sklearn.svm import SVC
+from sklearn.metrics import classification_report
 
-Plotting sentiment & Like columns relationship by Seaborn
+# Load the dataset
+data = pd.read_csv('sentimentdataset.csv.csv')  # Make sure your dataset is named 'social_media_data.csv'
 
-Plotting WordCloud from extracted key phrase
+# Data Preprocessing
+# Assuming your dataset has 'text' column for social media posts and 'sentiment' column for sentiment labels
+X = data['Text']
+y = data['Sentiment']
+
+# Feature Engineering
+tfidf = TfidfVectorizer(max_features=5000)  # Using TF-IDF for feature extraction
+X_tfidf = tfidf.fit_transform(X)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_tfidf, y, test_size=0.2, random_state=42)
+
+# Model Training
+svm_model = make_pipeline(SVC(kernel='linear'))  # Using Support Vector Machine (SVM) classifier
+svm_model.fit(X_train, y_train)
+
+# Model Evaluation
+predictions = svm_model.predict(X_test)
+print(classification_report(y_test, predictions))
+
+# Deployment
+# Save the model to a file for deployment
+import joblib
+joblib.dump(svm_model, 'sentiment_analysis_model.pkl')
